@@ -808,6 +808,15 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
+        astro = {},
+        cobol_ls = {},
+        cssls = {},
+        cssmodules_ls = {},
+        css_variables = {},
+        dockerls = {},
+        html = {},
+        htmx = {},
+        volar = {},
         --
 
         lua_ls = {
