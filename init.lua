@@ -1,5 +1,4 @@
 --[[
-
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -189,6 +188,49 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- neo-tree start
+vim.keymap.set('n', '<C-n>', ':Neotree toggle<CR>', {
+  desc = 'Toggle neo-tree visibility',
+  silent = true,
+  noremap = true,
+})
+
+-- Todo-comments
+vim.keymap.set('n', '<leader>lt', ':TodoTelescope keywords=TODO<CR>', {
+  desc = '[T]odo comments',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>lb', ':TodoTelescope keywords=BUG<CR>', {
+  desc = '[B]ug comments',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>lf', ':TodoTelescope keywords=FIXME,FIXIT<CR>', {
+  desc = '[F]ix it',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>lo', 'TodoTelescope keywords=OPTIM,OPTIMIZE,PERFORMACE', {
+  desc = '[Optimize] comments',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>li', 'TodoTelescope keywords=INFO,HINT', {
+  desc = '[I]nfo comments',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>lw', 'TodoTelescope keywords=WARN,WARNING', {
+  desc = '[W]arning comments',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>ls', 'TodoTelescope keywords=TESTING,FAILED,PASSED', {
+  desc = 'Te[S]t comments',
+  noremap = true,
+  silent = true,
+})
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -203,6 +245,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--  callback = function()
+--    require('lazy').load { plugins = { 'neo-tree.vim' } }
+--    vim.cmd 'Neotree filesystem reveal left'
+--  end,
+-- })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -227,7 +275,152 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    event = 'VimEnter',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
+    },
+    config = function()
+      require('neo-tree').setup {
+        enable_git_status = true,
+        enable_diagnostics = true,
+        sort_case_insensitive = true,
+        sort_function = nil,
+        default_component_config = {
+          container = {
+            enable_character_fade = true,
+          },
+          indent = {
+            indent_size = 2,
+            padding = 1,
+            with_markers = true,
+            indent_market = '|',
+            last_indent_marker = '└',
+            highlight = 'NeoTreeIndentMarker',
+            with_expanders = nil,
+            expander_collapsed = '⯅',
+            expander_expanded = '⯆',
+            expander_highlight = 'NeoTreeExpander',
+          },
+          icon = {
+            folder_closed = '⯅',
+            folder_open = '⯆',
+            folder_empty = '·',
+          },
+          modified = {
+            symbol = '[+]',
+            highlight = 'NeoTreeModified',
+          },
+          name = {
+            trailing_slach = false,
+            use_git_status_colors = true,
+            highlight = 'NeoTreeFileName',
+          },
+          git_status = {
+            symbols = {
+              added = '✚',
+              modified = 'M',
+              deleted = '✖',
+              renamed = 'R',
+              untracked = 'U',
+              ignored = 'I',
+              conflict = 'C',
+              staged = 'S+',
+              unstaged = 'S-',
+            },
+          },
+        },
+        commands = {},
+        window = {
+          position = 'left',
+          mapping_options = {
+            noremap = true,
+            nowait = true,
+          },
+          mappings = {
+            ['<leader>'] = {
+              'toggle_node',
+              nowait = false,
+            },
+            ['o'] = 'open',
+            ['<2-LeftMouse>'] = 'open',
+            ['<esc>'] = 'cancel',
+            ['P'] = {
+              'toggle_preview',
+              config = { use_float = false, use_image_nvim = false },
+            },
+            ['S'] = 'open_split',
+            ['s'] = 'open_vsplit',
+            ['C'] = 'close_node',
+            ['z'] = 'close_all_nodes',
+            ['a'] = 'add',
+            ['A'] = 'add_directory',
+            ['d'] = 'delete',
+            ['r'] = 'rename',
+            ['y'] = 'copy_to_clipboard',
+            ['x'] = 'cut_to_clipboard',
+            ['p'] = 'paste_from_clipboard',
+            ['c'] = 'copy',
+            ['m'] = 'move',
+            ['q'] = 'close_window',
+            ['R'] = 'refresh',
+            ['?'] = 'show_help',
+            ['<'] = 'prev_source',
+            ['>'] = 'next_source',
+            ['i'] = 'show_file_details',
+          },
+        },
+        filesystem = {
+          filtered_items = {
+            visible = false,
+            hide_dotfiles = false,
+            hide_gitignore = false,
+            hide_hidden = false,
+            hide_by_name = {},
+            hide_by_pattern = {},
+            always_show = {},
+            always_show_pattern = {},
+            never_show = {},
+            never_show_by_pattern = {},
+            follow_current_file = {
+              enabled = false,
+              leave_dirs_open = false,
+            },
+            group_empty_dirs = false,
+            window = {
+              mappings = {
+                ['<bs>'] = 'navigate_up',
+                ['.'] = 'set_root',
+                ['H'] = 'toggle_hidden',
+                ['/'] = 'fuzzy_finder',
+                ['/d'] = 'fuzzy_finder_directory',
+                ['#'] = 'fuzzy_sorter',
+                ['#d'] = 'fuzzy_sorter_directory',
+                ['<C-x>'] = 'clear_filter',
+                ['[g'] = 'prev_git_modified',
+                [']g'] = 'next_git_modified',
+                ['oc'] = { 'order_by_created', nowait = false },
+                ['od'] = { 'order_by_diagnostics', nowait = false },
+                ['og'] = { 'order_by_git_status', nowait = false },
+                ['om'] = { 'order_by_modified', nowait = false },
+                ['on'] = { 'order_by_name', nowait = false },
+                ['os'] = { 'order_by_size', nowait = false },
+                ['ot'] = { 'order_by_type', nowait = false },
+              },
+              fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
+                ['<down>'] = 'move_cursor_down',
+                ['<up>'] = 'move_cursor_up',
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -239,6 +432,19 @@ require('lazy').setup({
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
+
+  -- {
+  --   'folke/trouble',
+  --   opts = {},
+  --   cmd = 'Trouble',
+  -- },
+
+  -- autopair brackers for Nvim
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+  },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -288,6 +494,7 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        ['<leader>l'] = { name = '[L]ist', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').register({
@@ -406,6 +613,31 @@ require('lazy').setup({
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
     end,
+  },
+
+  -- Todo comments
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    config = function()
+      require('todo-comments').setup()
+    end,
+    keys = {
+      {
+        '[t',
+        function()
+          require('todo-comments').jump_prev()
+        end,
+        desc = 'Previous Todo comment',
+      },
+      {
+        ']t',
+        function()
+          require('todo-comments').jump_next()
+        end,
+        desc = 'Next Todo comment',
+      },
+    },
   },
 
   { -- LSP Configuration & Plugins
@@ -568,14 +800,14 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -778,13 +1010,16 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    -- 'folke/tokyonight.nvim',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'gruvbox'
+      vim.o.background = 'dark'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -835,7 +1070,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'html' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
