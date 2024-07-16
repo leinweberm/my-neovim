@@ -188,10 +188,21 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
 -- neo-tree start
 vim.keymap.set('n', '<C-n>', ':Neotree toggle<CR>', {
   desc = 'Toggle neo-tree visibility',
   silent = true,
+  noremap = true,
+})
+
+-- move lines up / down
+vim.keymap.set('n', '<C-Up>', ':m -2<CR>', {
+  desc = 'Moves the line up',
+  noremap = true,
+})
+vim.keymap.set('n', '<C-Down>', ':m +1<CR>', {
+  desc = 'Moves the line down',
   noremap = true,
 })
 
