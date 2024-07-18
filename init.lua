@@ -222,23 +222,45 @@ vim.keymap.set('n', '<leader>lf', ':TodoTelescope keywords=FIXME,FIXIT<CR>', {
   noremap = true,
   silent = true,
 })
-vim.keymap.set('n', '<leader>lo', 'TodoTelescope keywords=OPTIM,OPTIMIZE,PERFORMACE', {
+vim.keymap.set('n', '<leader>lo', ':TodoTelescope keywords=OPTIM,OPTIMIZE,PERFORMACE<CR>', {
   desc = '[Optimize] comments',
   noremap = true,
   silent = true,
 })
-vim.keymap.set('n', '<leader>li', 'TodoTelescope keywords=INFO,HINT', {
+vim.keymap.set('n', '<leader>li', ':TodoTelescope keywords=INFO,HINT<CR>', {
   desc = '[I]nfo comments',
   noremap = true,
   silent = true,
 })
-vim.keymap.set('n', '<leader>lw', 'TodoTelescope keywords=WARN,WARNING', {
+vim.keymap.set('n', '<leader>lw', ':TodoTelescope keywords=WARN,WARNING<CR>', {
   desc = '[W]arning comments',
   noremap = true,
   silent = true,
 })
-vim.keymap.set('n', '<leader>ls', 'TodoTelescope keywords=TESTING,FAILED,PASSED', {
+vim.keymap.set('n', '<leader>ls', ':TodoTelescope keywords=TESTING,FAILED,PASSED<CR>', {
   desc = 'Te[S]t comments',
+  noremap = true,
+  silent = true,
+})
+
+-- git editor
+vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', {
+  desc = '[D]iff view open',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>gh', ':DiffviewFileHistory<CR>', {
+  desc = '[H]istory of the file',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>gu', ':DiffviewRefresh<CR>', {
+  desc = '[U]pdate / refresh diffview',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>ge', ':DiffviewClose<CR>', {
+  desc = '[E]xit diffiview',
   noremap = true,
   silent = true,
 })
@@ -518,6 +540,7 @@ require('lazy').setup({
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
         ['<leader>l'] = { name = '[L]ist', _ = 'which_key_ignore' },
+        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').register({
@@ -1141,11 +1164,11 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
