@@ -90,7 +90,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -449,6 +449,18 @@ require('lazy').setup({
   --   opts = {},
   --   cmd = 'Trouble',
   -- },
+  --
+
+  -- git editor Neogit
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+      'nvim-telescope/telescope.nvim'
+    },
+    config = true,
+  },
 
   -- autopair brackers for Nvim
   {
