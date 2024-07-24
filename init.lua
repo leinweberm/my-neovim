@@ -245,7 +245,17 @@ vim.keymap.set('n', '<leader>ls', ':TodoTelescope keywords=TESTING,FAILED,PASSED
 
 -- git editor
 vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', {
-  desc = '[D]iff view open',
+  desc = '[D]iffview open',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('n', '<leader>ge', ':DiffviewClose<CR>', {
+  desc = 'Diffview [E]xit',
+  noremap = true,
+  silent = true,
+})
+vim.keymap.set('v', '<leader>ge', ':DiffviewClose<CR>', {
+  desc = 'Diffview [E]xit',
   noremap = true,
   silent = true,
 })
@@ -254,13 +264,8 @@ vim.keymap.set('n', '<leader>gh', ':DiffviewFileHistory<CR>', {
   noremap = true,
   silent = true,
 })
-vim.keymap.set('n', '<leader>gu', ':DiffviewRefresh<CR>', {
-  desc = '[U]pdate / refresh diffview',
-  noremap = true,
-  silent = true,
-})
-vim.keymap.set('n', '<leader>ge', ':DiffviewClose<CR>', {
-  desc = '[E]xit diffiview',
+vim.keymap.set('n', '<leader>gr', ':DiffviewRefresh<CR>', {
+  desc = '[R]efresh diffview',
   noremap = true,
   silent = true,
 })
@@ -527,26 +532,72 @@ require('lazy').setup({
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-        ['<leader>l'] = { name = '[L]ist', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
+    opts = {},
+    keys = {
+      {
+        '<leader>c',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[C]ode'
+      },
+      {
+        '<leader>d',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[D]ocument'
+      },
+      {
+        '<leader>r',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[R]ename'
+      },
+      {
+        '<leader>s',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[S]earch'
+      },
+      {
+        '<leader>w',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[W]orkspace'
+      },
+      {
+        '<leader>t',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[T]oggle'
+      },
+      {
+        '<leader>h',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = 'Git [H]unk'
+      },
+      {
+        '<leader>l',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[L]ist'
+      },
+      {
+        '<leader>g',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = '[G]it'
       }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
-    end,
+    }
   },
 
   -- NOTE: Plugins can specify dependencies.
