@@ -10,7 +10,12 @@
 | gg | move to start of the file |
 | G | move to the end of the file |
 | 2G | move to he line number 2 |
-| ctrl + G | display you current location in filesystem and file |
+| Ctrl + G | display you current location in filesystem and file |
+| Ctrl + w | open panels/windows menu |
+| Ctrl + h | move focus to right panel/window |
+| Ctrl + j | move focus to he panel/window below |
+| Ctrl + k | move focus to the panel/window above |
+| Ctrl + l | move focus to left panel/window |
 
 ## motion
 | shortcut | description |
@@ -30,7 +35,31 @@
 | shortcut | description |
 |----------|-------------|
 | :q! | close without save |
-| :wq | close and save the changes |
+| :wq | close and save the changes |UPDATE assetDependencyTree adt
+SET dependenciesFull = (
+  SELECT CONCAT('[', GROUP_CONCAT(
+    JSON_OBJECT(
+      'id', a.id,
+      'version', NULL
+    )
+  ), ']')
+  FROM assets a
+  WHERE JSON_CONTAINS(adt.dependencies, JSON_QUOTE(a.id), '$')
+)
+WHERE JSON_LENGTH(adt.dependencies) > 0;
+UPDATE assetDependencyTree adt
+SET dependenciesFull = (
+  SELECT CONCAT('[', GROUP_CONCAT(
+    JSON_OBJECT(
+      'id', a.id,
+      'version', NULL
+    )
+  ), ']')
+  FROM assets a
+  WHERE JSON_CONTAINS(adt.dependencies, JSON_QUOTE(a.id), '$')
+)
+WHERE JSON_LENGTH(adt.dependencies) > 0;
+
 | :w $FILENAME | write current content into the file |
 | :!rm $FILENAME | remove file by the name |
 | :!ls | list you directory files |
@@ -61,6 +90,7 @@
 | :w FILE_ANAME | save changes into file |
 | :!rm FILE_NAME | remove file by name |
 | v | start selecting the lines |
+| v]M | select whole statement |
 
 ## plugins
 ### search

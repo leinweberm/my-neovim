@@ -487,6 +487,7 @@ require('lazy').setup({
       'nvim-telescope/telescope.nvim'
     },
     config = true,
+    tag = 'v.0.0.1'
   },
 
   -- autopair brackers for Nvim
