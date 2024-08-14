@@ -84,8 +84,9 @@ WHERE JSON_LENGTH(adt.dependencies) > 0;
 | N | when searching press N to change direction the next result is found|
 | % | when cursor is on any bracker, press % to highlight matching closing bracket |
 | :s/old_word/new_word/ | replace the old word on the line with new_word |
-| :s/old_word/new_word/g | replace all occurences of old_word on the line |
-| :S/old_word/new_word/gc | replace all occurences of old_word in the whole file |
+| :%s/old_word/new_word/gc | replace all occurences of old_word in the whole file |
+| :'<,'>s/old_word/new_word/ | replace all occurences of old word in the selected text |
+| :[10, 20]s/old_word/new_word/ | replace all occurences of old_word in lines 10-20 |
 | :! | use :! to run any external bash command |
 | :w FILE_ANAME | save changes into file |
 | :!rm FILE_NAME | remove file by name |
