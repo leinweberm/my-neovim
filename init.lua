@@ -664,7 +664,13 @@ require('lazy').setup({
         dockerls = {},
         html = {},
         htmx = {},
-        volar = {},
+        volar = {
+          init_options = {
+            typescript = {
+              tsdk = 'tsserver'
+            }
+          }
+        },
         lua_ls = {
           settings = {
             Lua = {
