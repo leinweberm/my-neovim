@@ -654,8 +654,9 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
+        ts_ls = {},
         rust_analyzer = {},
-        tsserver = {},
+        -- tsserver = {},
         astro = {},
         cobol_ls = {},
         cssls = {},
@@ -667,7 +668,8 @@ require('lazy').setup({
         volar = {
           init_options = {
             typescript = {
-              tsdk = 'tsserver'
+              -- tsdk = 'tsserver'
+              tsdk = 'ts_ls'
             }
           }
         },
@@ -827,7 +829,7 @@ require('lazy').setup({
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       vim.cmd.colorscheme 'gruvbox'
-      vim.o.background = 'dark'
+      vim.o.background = 'light'
       vim.cmd.hi 'Comment gui=none'
     end,
   },
