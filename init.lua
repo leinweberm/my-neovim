@@ -186,6 +186,13 @@ vim.keymap.set('n', '<leader>pq', ':Trouble qflist toggle<CR>', {
   silent = true,
 })
 
+--- toggle key mapping
+vim.keymap.set('n', '<leader>tn', ':ToggleNumbers<CR>', {
+  desc = '[T]oggle [N]umbers',
+  noremap = true,
+  silent = true,
+})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -195,6 +202,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.api.nvim_create_user_command('ToggleNumbers', function()
+  local is_relative = vim.wo.relativenumber
+  if is_relative then
+    vim.wo.relativenumber = false
+    vim.wo.number = true
+  else
+    vim.wo.relativenumber = true
+    vim.wo.number = false
+  end
+end, {})
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -829,7 +847,7 @@ require('lazy').setup({
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       vim.cmd.colorscheme 'gruvbox'
-      vim.o.background = 'light'
+      vim.o.background = 'dark'
       vim.cmd.hi 'Comment gui=none'
     end,
   },
@@ -892,6 +910,16 @@ require('lazy').setup({
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = {'nvim-treesitter/nvim-treesitter'},
+    ---@module 'render-markdown',
+    ---@type render.md.UserConfig,
+    opts = {},
+    config = function ()
+      require('render-markdown').enable()
     end,
   },
 
