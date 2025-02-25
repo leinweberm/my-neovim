@@ -27,25 +27,31 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
-vim.opt.number = true
--- vim.opt.relativenumber = true
-vim.opt.mouse = 'a'
-vim.opt.showmode = false
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.autoindent = true
 vim.opt.breakindent = true
-vim.opt.undofile = true
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.cursorline = true
+vim.opt.expandtab = true
 vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.signcolumn = 'yes'
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.opt.inccommand = 'split'
+vim.opt.linebreak = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-vim.opt.inccommand = 'split'
-vim.opt.cursorline = true
+vim.opt.number = true
+vim.opt.mouse = 'a'
 vim.opt.scrolloff = 10
+vim.opt.shiftwidth = 2
+vim.opt.showmode = false
+vim.opt.signcolumn = 'yes'
+vim.opt.smartcase = true
+vim.opt.smarttab = true
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.tabstop = 2
+vim.opt.timeoutlen = 300
+vim.opt.undofile = true
+vim.opt.updatetime = 250
+vim.opt.wrap = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -401,10 +407,10 @@ require('lazy').setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
-      'nvim-telescope/telescope.nvim'
+      'nvim-telescope/telescope.nvim',
     },
     config = true,
-    tag = 'v.0.0.1'
+    tag = 'v.0.0.1',
   },
 
   -- autopair brackers for Nvim
@@ -435,74 +441,74 @@ require('lazy').setup({
       {
         '<leader>c',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[C]ode'
+        desc = '[C]ode',
       },
       {
         '<leader>d',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[D]ocument'
+        desc = '[D]ocument',
       },
       {
         '<leader>r',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[R]ename'
+        desc = '[R]ename',
       },
       {
         '<leader>s',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[S]earch'
+        desc = '[S]earch',
       },
       {
         '<leader>w',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[W]orkspace'
+        desc = '[W]orkspace',
       },
       {
         '<leader>t',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[T]oggle'
+        desc = '[T]oggle',
       },
       {
         '<leader>h',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = 'Git [H]unk'
+        desc = 'Git [H]unk',
       },
       {
         '<leader>l',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[L]ist'
+        desc = '[L]ist',
       },
       {
         '<leader>g',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[G]it'
+        desc = '[G]it',
       },
       {
         '<leader>p',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
-        desc = '[P]roblems'
-      }
-    }
+        desc = '[P]roblems',
+      },
+    },
   },
 
   { -- Fuzzy Finder (files, lsp, etc)
@@ -687,9 +693,9 @@ require('lazy').setup({
           init_options = {
             typescript = {
               -- tsdk = 'tsserver'
-              tsdk = 'ts_ls'
-            }
-          }
+              tsdk = 'ts_ls',
+            },
+          },
         },
         lua_ls = {
           settings = {
@@ -723,41 +729,41 @@ require('lazy').setup({
   },
 
   { -- Folke Trouble
-    "folke/trouble.nvim",
+    'folke/trouble.nvim',
     opts = {}, -- for default options, refer to the configuration section for custom setup.
-    cmd = "Trouble",
+    cmd = 'Trouble',
     keys = {
       {
-        "<leader>xx",
-        "<cmd>Trouble diagnostics toggle<cr>",
-        desc = "Diagnostics (Trouble)",
+        '<leader>xx',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
       },
       {
-        "<leader>xX",
-        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
+        '<leader>xX',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+        desc = 'Buffer Diagnostics (Trouble)',
       },
       {
-        "<leader>cs",
-        "<cmd>Trouble symbols toggle focus=false<cr>",
-        desc = "Symbols (Trouble)",
+        '<leader>cs',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
       },
       {
-        "<leader>cl",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP Definitions / references / ... (Trouble)",
+        '<leader>cl',
+        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+        desc = 'LSP Definitions / references / ... (Trouble)',
       },
       {
-        "<leader>xL",
-        "<cmd>Trouble loclist toggle<cr>",
-        desc = "Location List (Trouble)",
+        '<leader>xL',
+        '<cmd>Trouble loclist toggle<cr>',
+        desc = 'Location List (Trouble)',
       },
       {
-        "<leader>xQ",
-        "<cmd>Trouble qflist toggle<cr>",
-        desc = "Quickfix List (Trouble)",
-      }
-    }
+        '<leader>xQ',
+        '<cmd>Trouble qflist toggle<cr>',
+        desc = 'Quickfix List (Trouble)',
+      },
+    },
   },
 
   { -- Autoformat
@@ -830,7 +836,6 @@ require('lazy').setup({
               luasnip.jump(-1)
             end
           end, { 'i', 's' }),
-
         },
         sources = {
           { name = 'nvim_lsp' },
@@ -914,18 +919,17 @@ require('lazy').setup({
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = {'nvim-treesitter/nvim-treesitter'},
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     ---@module 'render-markdown',
     ---@type render.md.UserConfig,
     opts = {},
-    config = function ()
+    config = function()
       require('render-markdown').enable()
     end,
   },
 
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
