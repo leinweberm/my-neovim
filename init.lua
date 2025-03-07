@@ -37,7 +37,8 @@ vim.opt.inccommand = 'split'
 vim.opt.linebreak = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-vim.opt.number = true
+vim.opt.relativenumber = true
+-- vim.opt.number = true
 vim.opt.mouse = 'a'
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 2
@@ -195,6 +196,13 @@ vim.keymap.set('n', '<leader>pq', ':Trouble qflist toggle<CR>', {
 --- toggle key mapping
 vim.keymap.set('n', '<leader>tn', ':ToggleNumbers<CR>', {
   desc = '[T]oggle [N]umbers',
+  noremap = true,
+  silent = true,
+})
+
+-- telescope
+vim.keymap.set('n', '<leader>sh', ':lua require"telescope.builtin".live_grep({ hidden = true })<CR>', {
+  desc = 'Search grep in [H]idden',
   noremap = true,
   silent = true,
 })
@@ -551,7 +559,7 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+      -- vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
@@ -675,12 +683,22 @@ require('lazy').setup({
 
       local servers = {
         -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        ts_ls = {},
+        gopls = {},
+        ts_ls = {
+          root_dir = require('lspconfig').util.root_pattern 'package.json',
+          single_file_support = false,
+          init_options = {
+            plugins = {
+              {
+                name = '@vue/typescript-plugin',
+                location = '/home/leinweberm/.nvm/versions/node/v21.7.3/lib/node_modules/@vue/typescript-plugin',
+                languages = { 'javascript', 'typescript', 'vue' },
+              },
+            },
+          },
+          filetypes = { 'typescript', 'javascript', 'vue' },
+        },
         rust_analyzer = {},
-        -- tsserver = {},
         astro = {},
         cobol_ls = {},
         cssls = {},
@@ -690,12 +708,26 @@ require('lazy').setup({
         html = {},
         htmx = {},
         volar = {
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
           init_options = {
             typescript = {
-              -- tsdk = 'tsserver'
-              tsdk = 'ts_ls',
+              tsdk = '/home/leinweberm/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib'
+              -- tsdk =  '/home/leinweberm/.nvm/versions/node/v21.7.3/lib/node_modules/typescript/lib'
+            },
+            vue = {
+              hybridMode = false,
             },
           },
+          on_new_config = function(new_config, new_root_dir)
+            local lib_path = vim.fs.find('node_modules/typescript/lib',{ path = new_root_dir, upward = true })[1]
+            if lib_path then
+              new_config.init_options.typescript.tsdk = lib_path
+            end
+          end
+        },
+        denols = {
+          root_dir = require('lspconfig').util.root_pattern('deno.json', 'deno.jsonc'),
+          single_file_support = false,
         },
         lua_ls = {
           settings = {
@@ -851,8 +883,15 @@ require('lazy').setup({
     'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
+      local time = os.date("*t")
+      local themeVariant = 'dark'
+
+      if time.hour > 7 and time.hour < 19 then
+        themeVariant = 'light'
+      end
+
       vim.cmd.colorscheme 'gruvbox'
-      vim.o.background = 'dark'
+      vim.o.background = themeVariant
       vim.cmd.hi 'Comment gui=none'
     end,
   },
