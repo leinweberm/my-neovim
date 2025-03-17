@@ -711,7 +711,7 @@ require('lazy').setup({
           filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
           init_options = {
             typescript = {
-              tsdk = '/home/leinweberm/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib'
+              tsdk = '/home/leinweberm/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib',
               -- tsdk =  '/home/leinweberm/.nvm/versions/node/v21.7.3/lib/node_modules/typescript/lib'
             },
             vue = {
@@ -719,11 +719,11 @@ require('lazy').setup({
             },
           },
           on_new_config = function(new_config, new_root_dir)
-            local lib_path = vim.fs.find('node_modules/typescript/lib',{ path = new_root_dir, upward = true })[1]
+            local lib_path = vim.fs.find('node_modules/typescript/lib', { path = new_root_dir, upward = true })[1]
             if lib_path then
               new_config.init_options.typescript.tsdk = lib_path
             end
-          end
+          end,
         },
         denols = {
           root_dir = require('lspconfig').util.root_pattern('deno.json', 'deno.jsonc'),
@@ -883,7 +883,7 @@ require('lazy').setup({
     'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      local time = os.date("*t")
+      local time = os.date '*t'
       local themeVariant = 'dark'
 
       if time.hour > 7 and time.hour < 19 then
@@ -964,6 +964,31 @@ require('lazy').setup({
     opts = {},
     config = function()
       require('render-markdown').enable()
+    end,
+  },
+  {
+    'kdheepak/lazygit.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim'
+    },
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    keys = {
+      { '<leader>go', '<cmd>LazyGit<cr>', desc = 'LazyGit [O]pen' },
+      { '<leader>gs', '<cmd>LazyGitConfig<cr>', desc = 'LazyGit [S]ettings' },
+      { '<leader>gc', '<cmd>LazyGitCurrentFile<cr>', desc = 'LazyGit [C]urrent file' },
+      { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'LazyGit [F]ilter' },
+      { '<leader>g.', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'LazyGit filter current file' }
+    },
+    config = function()
+      require("telescope").load_extension("lazygit")
     end,
   },
 
