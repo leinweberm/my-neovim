@@ -207,6 +207,23 @@ vim.keymap.set('n', '<leader>sh', ':lua require"telescope.builtin".live_grep({ h
   silent = true,
 })
 
+-- check theme status
+local function update_theme()
+  local time = os.date '*t'
+  local themeVariant = 'dark'
+
+  if time.hour > 7 and time.hour < 19 then
+    themeVariant = 'light'
+  end
+
+  vim.cmd.colorscheme 'gruvbox'
+  vim.o.background = themeVariant
+  vim.cmd.hi 'Comment gui=none'
+end
+
+local timer = vim.loop.new_timer()
+timer:start(0, 15 * 60 * 1000, vim.schedule_wrap(update_theme))
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -329,8 +346,8 @@ require('lazy').setup({
               'toggle_preview',
               config = { use_float = false, use_image_nvim = false },
             },
-            ['S'] = 'open_split',
-            ['s'] = 'open_vsplit',
+            ['s'] = 'open_split',
+            ['v'] = 'open_vsplit',
             ['C'] = 'close_node',
             ['z'] = 'close_all_nodes',
             ['a'] = 'add',
@@ -883,16 +900,17 @@ require('lazy').setup({
     'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      local time = os.date '*t'
-      local themeVariant = 'dark'
-
-      if time.hour > 7 and time.hour < 19 then
-        themeVariant = 'light'
-      end
-
-      vim.cmd.colorscheme 'gruvbox'
-      vim.o.background = themeVariant
-      vim.cmd.hi 'Comment gui=none'
+      update_theme()
+      -- local time = os.date '*t'
+      -- local themeVariant = 'dark'
+      --
+      -- if time.hour > 7 and time.hour < 19 then
+      --   themeVariant = 'light'
+      -- end
+      --
+      -- vim.cmd.colorscheme 'gruvbox'
+      -- vim.o.background = themeVariant
+      -- vim.cmd.hi 'Comment gui=none'
     end,
   },
 
