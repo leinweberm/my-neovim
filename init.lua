@@ -777,6 +777,13 @@ require('lazy').setup({
     end,
   },
 
+  { -- Supermaven
+    'supermaven-inc/supermaven-nvim',
+    config = function ()
+      require("supermaven-nvim").setup({})
+    end
+  },
+
   { -- Folke Trouble
     'folke/trouble.nvim',
     opts = {}, -- for default options, refer to the configuration section for custom setup.
@@ -983,6 +990,11 @@ require('lazy').setup({
     config = function()
       require('render-markdown').enable()
     end,
+  },
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
   },
   {
     'kdheepak/lazygit.nvim',
