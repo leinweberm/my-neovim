@@ -218,6 +218,7 @@ local function update_theme()
 
   vim.cmd.colorscheme 'gruvbox'
   vim.o.background = themeVariant
+  -- vim.o.background = 'dark'
   vim.cmd.hi 'Comment gui=none'
 end
 
@@ -267,6 +268,11 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
+  },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   {
     'nvim-neo-tree/neo-tree.nvim',
@@ -425,19 +431,17 @@ require('lazy').setup({
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-
-  -- git editor Neogit
   {
-    'NeogitOrg/neogit',
+    "NeogitOrg/neogit",
     dependencies = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-      'nvim-telescope/telescope.nvim',
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
+      "ibhagwan/fzf-lua",
+      "echasnovski/mini.pick",
+      "folke/snacks.nvim",
     },
-    config = true,
-    tag = 'v.0.0.1',
   },
-
   -- autopair brackers for Nvim
   {
     'windwp/nvim-autopairs',
@@ -702,50 +706,15 @@ require('lazy').setup({
         -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
         gopls = {},
         ts_ls = {
-          root_dir = require('lspconfig').util.root_pattern 'package.json',
           single_file_support = false,
-          init_options = {
-            plugins = {
-              {
-                name = '@vue/typescript-plugin',
-                location = '/home/leinweberm/.nvm/versions/node/v21.7.3/lib/node_modules/@vue/typescript-plugin',
-                languages = { 'javascript', 'typescript', 'vue' },
-              },
-            },
-          },
-          filetypes = { 'typescript', 'javascript', 'vue' },
+          filetypes = { 'typescript', 'vue' },
         },
         rust_analyzer = {},
-        astro = {},
-        cobol_ls = {},
         cssls = {},
         cssmodules_ls = {},
         css_variables = {},
         dockerls = {},
         html = {},
-        htmx = {},
-        volar = {
-          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-          init_options = {
-            typescript = {
-              tsdk = '/home/leinweberm/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib',
-              -- tsdk =  '/home/leinweberm/.nvm/versions/node/v21.7.3/lib/node_modules/typescript/lib'
-            },
-            vue = {
-              hybridMode = false,
-            },
-          },
-          on_new_config = function(new_config, new_root_dir)
-            local lib_path = vim.fs.find('node_modules/typescript/lib', { path = new_root_dir, upward = true })[1]
-            if lib_path then
-              new_config.init_options.typescript.tsdk = lib_path
-            end
-          end,
-        },
-        denols = {
-          root_dir = require('lspconfig').util.root_pattern('deno.json', 'deno.jsonc'),
-          single_file_support = false,
-        },
         lua_ls = {
           settings = {
             Lua = {
@@ -820,6 +789,17 @@ require('lazy').setup({
         desc = 'Quickfix List (Trouble)',
       },
     },
+  },
+
+  { -- Remote nvim
+    "amitds1997/remote-nvim.nvim",
+    version = "*", -- Pin to GitHub releases
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- For standard functions
+      "MunifTanjim/nui.nvim", -- To build the plugin UI
+      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    config = true,
   },
 
   { -- Autoformat
@@ -990,11 +970,6 @@ require('lazy').setup({
     config = function()
       require('render-markdown').enable()
     end,
-  },
-  {
-    "vhyrro/luarocks.nvim",
-    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
-    config = true,
   },
   {
     'kdheepak/lazygit.nvim',
