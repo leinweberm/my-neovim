@@ -209,16 +209,15 @@ vim.keymap.set('n', '<leader>sh', ':lua require"telescope.builtin".live_grep({ h
 
 -- check theme status
 local function update_theme()
-  local time = os.date '*t'
-  local themeVariant = 'dark'
-
-  if time.hour > 7 and time.hour < 19 then
-    themeVariant = 'light'
-  end
+  -- local time = os.date '*t'
+  -- local themeVariant = 'dark'
+  -- if time.hour > 7 and time.hour < 19 then
+  --   themeVariant = 'light'
+  -- end
 
   vim.cmd.colorscheme 'gruvbox'
-  vim.o.background = themeVariant
-  -- vim.o.background = 'dark'
+  -- vim.o.background = themeVariant
+  vim.o.background = 'dark'
   vim.cmd.hi 'Comment gui=none'
 end
 
@@ -746,13 +745,6 @@ require('lazy').setup({
     end,
   },
 
-  { -- Supermaven
-    'supermaven-inc/supermaven-nvim',
-    config = function ()
-      require("supermaven-nvim").setup({})
-    end
-  },
-
   { -- Folke Trouble
     'folke/trouble.nvim',
     opts = {}, -- for default options, refer to the configuration section for custom setup.
@@ -944,6 +936,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    branch = 'master',
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'html' },
       auto_install = true,
@@ -969,31 +962,6 @@ require('lazy').setup({
     opts = {},
     config = function()
       require('render-markdown').enable()
-    end,
-  },
-  {
-    'kdheepak/lazygit.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim'
-    },
-    lazy = true,
-    cmd = {
-      'LazyGit',
-      'LazyGitConfig',
-      'LazyGitCurrentFile',
-      'LazyGitFilter',
-      'LazyGitFilterCurrentFile',
-    },
-    keys = {
-      { '<leader>go', '<cmd>LazyGit<cr>', desc = 'LazyGit [O]pen' },
-      { '<leader>gs', '<cmd>LazyGitConfig<cr>', desc = 'LazyGit [S]ettings' },
-      { '<leader>gc', '<cmd>LazyGitCurrentFile<cr>', desc = 'LazyGit [C]urrent file' },
-      { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'LazyGit [F]ilter' },
-      { '<leader>g.', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'LazyGit filter current file' }
-    },
-    config = function()
-      require("telescope").load_extension("lazygit")
     end,
   },
 
